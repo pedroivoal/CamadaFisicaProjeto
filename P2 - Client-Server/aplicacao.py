@@ -38,7 +38,10 @@ def main():
         #Se chegamos até aqui, a comunicação foi aberta com sucesso. Faça um print para informar.
         print("Abriu a comunicação")
         
-        
+        com1.enable()
+        time.sleep(0.2)
+        com1.sendData(b'00')
+        time.sleep(1)
         
         #aqui você deverá gerar os dados a serem transmitidos. 
         #seus dados a serem transmitidos são um array bytes a serem transmitidos. Gere esta lista com o 
@@ -56,8 +59,6 @@ def main():
         #faça um print para avisar que a transmissão vai começar.
         #tente entender como o método send funciona!
         #Cuidado! Apenas trasmita arrays de bytes!
-
-               
         
         com1.sendData(np.asarray(txBuffer))  #as array apenas como boa pratica para casos de ter uma outra forma de dados
           
@@ -89,11 +90,6 @@ def main():
         print("-------------------------")
         com1.disable()
 
-        print(f'{imageW}', 'wb')
-        f = open(imageW, 'wb')
-        f.write(rxBuffer)
-            
-        
     except Exception as erro:
         print("ops! :-\\")
         print(erro)
