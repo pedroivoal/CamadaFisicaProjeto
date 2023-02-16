@@ -43,8 +43,7 @@ def main():
         #aqui você deverá gerar os dados a serem transmitidos. 
         #seus dados a serem transmitidos são um array bytes a serem transmitidos. Gere esta lista com o 
         #nome de txBuffer. Esla sempre irá armazenar os dados a serem enviados.
-        imageR = 'imgs/image.jpg'
-        imageW = 'imgs/image_copia.jpg'
+
 
         #txBuffer = imagem em bytes!
         txBuffer = b'\x12\x13\xAA'  #isso é um array de bytes
@@ -57,8 +56,7 @@ def main():
         #faça um print para avisar que a transmissão vai começar.
         #tente entender como o método send funciona!
         #Cuidado! Apenas trasmita arrays de bytes!
-        print(f'{imageR}')
-        txBuffer = open(imageR, 'rb').read()
+
                
         
         com1.sendData(np.asarray(txBuffer))  #as array apenas como boa pratica para casos de ter uma outra forma de dados
