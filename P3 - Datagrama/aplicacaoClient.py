@@ -28,7 +28,10 @@ def main():
         time.sleep(1)
 
         # Handshake
-        txBuffer = b'\x01' + b'\x00'
+        head = c.d_h0['handshake'] + b'\x00\x00' + b'\x01' + b'\x01' + b'\x01'+ b'\x00\x00\x00\x00\x00\x00'
+        command = c.commands[1]
+
+        txBuffer = head + command + c.commands[-1]
         
         lista_comandos = c.sorteia()
         for comando in lista_comandos:

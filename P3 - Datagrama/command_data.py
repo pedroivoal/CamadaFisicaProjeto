@@ -1,14 +1,18 @@
-from random import randint
+commands = {
+    -1: '\xaa\xbb\xcc\xdd', # fim do pacote
 
-def sorteia():
-    n = randint(10, 30)
-    lista_comandos = []
-    for i in range(n):
-        a = randint(1, 9)
-        lista_comandos.append(a)
-    return lista_comandos
+    1: b'\x01', # pergunta se está vivo
+    2: b'\x02', # responde que está vivo
 
-dic_comands = {
-    1: b'\x01\x00',
-    'handshake': b'\x01\x00',
+}
+
+d_h0 = {
+    1: b'\x01',
+    'handshake': b'\x01',
+    2: b'\x02',
+    'pacote': b'\x02',
+}
+
+d_head = {
+    # 'h0': b'\x01',
 }
