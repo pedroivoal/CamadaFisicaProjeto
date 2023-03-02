@@ -13,7 +13,7 @@
 from enlace import *
 import time
 import numpy as np
-import sorteador as sort
+import command_data as c
 
 # voce deverá descomentar e configurar a porta com através da qual ira fazer comunicaçao
 #   para saber a sua porta, execute no terminal :
@@ -87,7 +87,7 @@ def main():
                 
             rxBuffer, nRx = com1.getData(int.from_bytes(tamanho, byteorder='big'))
 
-            if rxBuffer not in sort.dic_comands.values():
+            if rxBuffer not in c.dic_comands.values():
                 print('ERRO: comando invalido\n')
                 break
 

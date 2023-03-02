@@ -5,58 +5,37 @@
 # Carareto
 ####################################################
 
-
-#esta é a camada superior, de aplicação do seu software de comunicação serial UART.
-#para acompanhar a execução e identificar erros, construa prints ao longo do código! 
-
-
 import numpy as np
 import time
 
 from enlace import *
-import sorteador as sort
-
-# voce deverá descomentar e configurar a porta com através da qual ira fazer comunicaçao
-#   para saber a sua porta, execute no terminal :
-#   python -m serial.tools.list_ports
-# se estiver usando windows, o gerenciador de dispositivos informa a porta
-
-#use uma das 3 opcoes para atribuir à variável a porta usada
-#serialName = "/dev/ttyACM0"           # Ubuntu (variacao de)
-serialName = "/dev/tty.usbmodem14301" # Mac    (variacao de)
-#serialName = "COM3"                  # Windows(variacao de)
-
+import command_data as c
 
 def main():
     try:
-        print("Iniciou o main")
-        #declaramos um objeto do tipo enlace com o nome "com". Essa é a camada inferior à aplicação. Observe que um parametro
-        #para declarar esse objeto é o nome da porta.
-        com1 = enlace('COM4')
+        print("\nIniciou o main\n")
+        com1 = enlace('COM5')
         i = 0
-        # Ativa comunicacao. Inicia os threads e a comunicação seiral 
         com1.enable()
-        #Se chegamos até aqui, a comunicação foi aberta com sucesso. Faça um print para informar.
-        print("Abriu a comunicação")
+        print("\nAbriu a comunicação\n")
         
-        # com1.enable()
-        # print(i);i = 1
-        # time.sleep(0.2)
-        # print(i);i = 2
-        # com1.sendData(b'00')
-        # time.sleep(1)
+        # Byte de sacrifício
+        com1.enable()
+        print(i);i = 1
+        time.sleep(0.2)
+        print(i);i = 2
+        com1.sendData(b'00')
+        time.sleep(1)
+
+        # Handshake
+        txBuffer = b'\x01' + b'\x00'
         
-        txBuffer = b''  #isso é um array de bytes
-        
-        #aqui você deverá gerar os dados a serem transmitidos. 
-        #seus dados a serem transmitidos são um array bytes a serem transmitidos. Gere esta lista com o 
-        #nome de txBuffer. Esla sempre irá armazenar os dados a serem enviados.
-        lista_comandos = sort.sorteia()
+        lista_comandos = c.sorteia()
         for comando in lista_comandos:
-            txBuffer += bytes([len(sort.dic_comands[comando])])
-            txBuffer += sort.dic_comands[comando]
+            txBuffer += bytes([len(c.dic_comands[comando])])
+            txBuffer += c.dic_comands[comando]
             time.sleep(0.02)
-        txBuffer += bytes([11]) # indica o fim da transmissão
+        txBuffer += bytes([11])
         
         print(txBuffer)
         print("meu array de bytes tem tamanho {}" .format(len(txBuffer)))
