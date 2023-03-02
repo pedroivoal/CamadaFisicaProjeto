@@ -9,7 +9,7 @@ def sorteia():
     return lista_comandos
 
 dic_comands = {
-                1: b'\x00\x00\x00\x00',
+                1: b'\xa0\x00\x00\x00',
                 2: b'\x00\x00\xAA\x00',
                 3: b'\xAA\x00\x00',
                 4: b'\x00\xAA\x00',
@@ -19,5 +19,3 @@ dic_comands = {
                 8: b'\x00',
                 9: b'\xFF'
                }
-
-# print(len(dic_comands[9]))
