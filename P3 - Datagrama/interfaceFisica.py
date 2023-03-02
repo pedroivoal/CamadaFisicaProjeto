@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 #####################################################
-#Carareto
-#17/02/2018
+# Camada Física da Computação
+# Carareto
 ####################################################
 
-# Importa pacote de comunicação serial
 import serial
 
-# importa pacote para conversão binário ascii
 import binascii
 
 #################################

@@ -2,18 +2,13 @@
 # -*- coding: utf-8 -*-
 #####################################################
 # Camada Física da Computação
-#Carareto
-#17/02/2018
-#  Camada de Enlace
+# Carareto
 ####################################################
 
-# Importa pacote de tempo
 import time
 
-# Threads
 import threading
 
-# Class
 class TX(object):
  
     def __init__(self, fisica):

@@ -19,5 +19,3 @@ dic_comands = {
                 8: b'\x00',
                 9: b'\xFF'
                }
-
-# print(len(dic_comands[9]))
