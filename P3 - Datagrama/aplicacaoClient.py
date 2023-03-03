@@ -75,11 +75,7 @@ def main():
     print("Tamanho da imagem: {} bytes" .format(len(binary_image)))
 
     i = 1
-    while i <= np.ceil(len(binary_image)/50):
-
-        if i == 5:
-            i += 1
-        
+    while i <= np.ceil(len(binary_image)/50):        
         
         if len(binary_image) - (i-1)*50 < 50:
             n = len(binary_image) - i*50
@@ -91,11 +87,13 @@ def main():
             payload = binary_image[(i-1)*50:i*50]
             print(f'tamanho do payload: {50}', end=' ')
 
-        if i == 5:
-            payload = binary_image[(i-1)*50:i*50]
+        # if i == 5:
+        #     head = b'\x02' + b'\x00\x00' + bytes([int(np.ceil(len(binary_image)/50))]) + bytes([i+1]) + b'\x32'+ b'\x00\x00\x00\x00\x00\x00'
+        # if i == 7:
+        #     head = b'\x02' + b'\x00\x00' + bytes([int(np.ceil(len(binary_image)/50))]) + bytes([i]) + b'\x30'+ b'\x00\x00\x00\x00\x00\x00'
             
         txBuffer = head + payload + c.commands[-1]
-        time.sleep(0.01)
+        time.sleep(0.005)
         com1.sendData(np.asarray(txBuffer))
         print(f'numero do pacote: {i}')
         i += 1
