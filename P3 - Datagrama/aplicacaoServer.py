@@ -12,7 +12,7 @@ import command_data as c
 
 #use uma das 3 opcoes para atribuir à variável a porta usada
 #serialName = "/dev/ttyACM0"           # Ubuntu (variacao de)
-serialName = "/dev/tty.usbmodem14301" # Mac    (variacao de)
+serialName = "/dev/tty.usbmodem14101" # Mac    (variacao de)
 #serialName = "COM3"                  # Windows(variacao de)
 
 def main():
@@ -33,6 +33,7 @@ def main():
 
         while True:
             head, _ = com1.getData(12)
+            head_server = head
             print('Recebi o head')
 
             n_pacotes_total = head[3]
@@ -60,29 +61,57 @@ def main():
                     break
 
         # PACOTES
+        data = b''
+        cont = 1
+        print("Recebendo pacotes")
         while True:
             head, _ = com1.getData(12)
-            print('Recebi o head')
 
             n_pacotes_total = head[3]
             n_pacote = head[4]
             n_bytes = head[5]
 
-        elif head[0] == 2:
-            print("Recebendo pacotes")
-            payload, _ = com1.getData(n_bytes)
-            eof, _ = com1.getData(4)
-            if n_pacote == n_pacotes_total:
-                print("Último pacote recebido")
-                break
-            if eof == b'\x00\x00\x00\x00':
-                print("Pacote recebido com sucesso")
-                com1.sendData(head + b'\x02' + eof)
-            else:
-                print("Erro no pacote")
-                break
+            print('Recebi o pacote {}/{}'.format(n_pacote, n_pacotes_total))
+
+            if head[0] == 2:
+                time.sleep(0.1)
+                if com1.rx.getBufferLen() != n_bytes + 4:
+                    print("Tamanho do pacote não confere")
+                    com1.sendData(head_server + b'\x06' + eof)
+                    time.sleep(0.01)
+                    break
+
+                payload, _ = com1.getData(n_bytes)
+                eof, _ = com1.getData(4)
+
+                if n_pacote == n_pacotes_total:
+                    print("Último pacote recebido")
+                    break
+
+                if eof == b'\xaa\xbb\xcc\xdd':
+                    print("Pacote recebido com sucesso")
+                    com1.sendData(head_server + b'\x04' + eof)
+                    time.sleep(0.01)
+
+                else:
+                    print("Erro no pacote")
+                    break
+                
+                if n_pacote == cont:
+                    data += payload
+                    cont += 1
+
+                else:
+                    print("Pacote fora de ordem")
+                    com1.sendData(head_server + b'\x05' + eof)
+                    time.sleep(0.01)
+                    break
             
-            
+        
+        img = 'img_recebida.jpg'
+        with open(img, 'wb') as f:
+            f.write(data)
+
         # Encerra comunicação
         print("-------------------------")
         print("Comunicação encerrada")
