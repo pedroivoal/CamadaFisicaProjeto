@@ -74,13 +74,6 @@ def main():
             print('Recebi o pacote {}/{}'.format(n_pacote, n_pacotes_total))
 
             if head[0] == 2:
-                time.sleep(0.1)
-                if com1.rx.getBufferLen() != n_bytes + 4:
-                    print("Tamanho do pacote não confere")
-                    com1.sendData(head_server + b'\x06' + eof)
-                    time.sleep(0.01)
-                    break
-
                 payload, _ = com1.getData(n_bytes)
                 eof, _ = com1.getData(4)
 
@@ -94,7 +87,8 @@ def main():
                     time.sleep(0.01)
 
                 else:
-                    print("Erro no pacote")
+                    print("Tamanho do pacote não confere")
+                    com1.sendData(head_server + b'\x06' + eof)
                     break
                 
                 if n_pacote == cont:
